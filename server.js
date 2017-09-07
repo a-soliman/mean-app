@@ -5,7 +5,22 @@ const morgan = require('morgan');
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-let User = require('./app/models/user');
+const expressValidator = require('express-validator');
+const path = require('path');
+
+let router = express.Router();
+let appRoutes = require('./app/routes/api')(router);
+
+app.use(morgan('dev'));
+// bodyParser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+// express validator
+app.use(expressValidator())
+// defining the static folder of the front end.
+app.use(express.static(__dirname + '/public'));
+// Express Router
+app.use('/api', appRoutes);
 
 mongoose.connect('mongodb://ahmed:123456@ds129144.mlab.com:29144/testing-firewood-database', function(err) {
     if(err) {
@@ -14,15 +29,9 @@ mongoose.connect('mongodb://ahmed:123456@ds129144.mlab.com:29144/testing-firewoo
         console.log('Successfully conected to MongoDB.')
     }
 })
-app.post('/users', function(req, res) {
-    let user = new User();
-    
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.email = req.body.email;
 
-    user.save();
-    res.send('user created')
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname +'/public/app/views/index.html'))
 })
 
 app.listen(port, function() {

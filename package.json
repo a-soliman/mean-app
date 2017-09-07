@@ -10,8 +10,10 @@
   "author": "Ahmed Soliman",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "express-validator": "^4.1.1",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.10",
     "morgan": "^1.8.2"
