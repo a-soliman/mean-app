@@ -20,9 +20,6 @@ angular.module('userController', [])
 
         $http.post('/api/users', $scope.regData)
             .then(function(data) {
-                console.log("Success : " + data.data.success);
-                console.log("Messages : " + data.data.messages);
-                console.log("Message : " + data.data.message);
 
                 //display messages
                 $scope.loading = false;
