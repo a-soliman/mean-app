@@ -47,10 +47,10 @@ module.exports = function(router){
 	        user.save(function(err) {
 	            // D.
 	            if(err){
-	                res.send('Username or Email already exists!');
+	                res.send({ "success": false, "message": 'Username or Email already exists!' });
 	            // E.
 	            } else {
-	                res.send('user created');
+	                res.send({ "success": true, "message": "user created" });
 	            }
 	        });   
 	    }   

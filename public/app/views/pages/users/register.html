@@ -2,21 +2,29 @@
 	<h2>User Registeration</h2>
 </div>
 
-<form >
+<form ng-submit="regUser(regData)">
 	<div class="control-group">
 		<label for="username">Username: </label>
-		<input class="form-control" type="text" name="username">
+		<input class="form-control" type="text" name="username" ng-model="regData.username">
 	</div>
 
 	<div class="control-group">
 		<label for="password">Password: </label>
-		<input class="form-control" type="password" name="password">
+		<input class="form-control" type="password" name="password" ng-model="regData.password">
 	</div>
 
 	<div class="control-group">
 		<label for="username">Email: </label>
-		<input class="form-control" type="email" name="email">
+		<input class="form-control" type="email" name="email" ng-model="regData.email">
 	</div>
 
 	<button class="btn btn-primary" type="submit">Submit</button>
 </form>
+
+<!-- MESSAGES -->
+<div class="row show-hide-message">
+	<div class="alert alert-sucess">{{successMsg}}</div>
+	<div class="alert alert-danger">{{errorMsg}}</div>
+	<div class="alert alert-danger" ng-repeat="errorMsg in errorMsgs">{{errorMsg}}</div>
+
+</div>
