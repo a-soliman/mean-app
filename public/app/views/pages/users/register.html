@@ -21,10 +21,14 @@
 	<button class="btn btn-primary" type="submit">Submit</button>
 </form>
 
+<!-- LOADING -->
+<div ng-show="loading">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>Loading...</p>
+</div>
 <!-- MESSAGES -->
 <div class="row show-hide-message">
 	<div class="alert alert-sucess">{{successMsg}}</div>
 	<div class="alert alert-danger">{{errorMsg}}</div>
 	<div class="alert alert-danger" ng-repeat="errorMsg in errorMsgs">{{errorMsg}}</div>
-
 </div>
