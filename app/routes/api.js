@@ -56,5 +56,38 @@ module.exports = function(router){
 	    }   
 	});
 
+	/* 
+		**************************
+		==== USER LOGIN ROUTE ====
+	 	**************************
+	*/
+
+	router.post('/authenticate', function(req, res) {
+		User.findOne({ username: req.body.username }).select('email username password').exec(function(err, user) {
+			if(err) throw err;
+
+			if(!user) {
+				res.send({"success": false, "message": "Could not authenticate user."})
+			} 
+			else if(user) {
+				let validPassword = null;
+
+				if(req.body.password) {
+
+					validPassword = user.comparePassword(req.body.password);
+				
+				} else {
+					res.send({ "success": false, "message": "Password was not provided"})
+				}
+				
+				if(!validPassword) {
+					res.send({ "success": false, "message": "Could not authenticate password!"});
+				} else {
+					res.send({ "success": true, "message": "User Authenticated!"})
+				}
+			}
+		})
+	})
+
 	return router;
 }
