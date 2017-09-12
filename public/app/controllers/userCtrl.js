@@ -1,6 +1,8 @@
-angular.module('userController', [])
+/* DEPERNDENCIES : 
+        1-  USERSERVICES:   A FACTORY THAT PERFORMS AN HTTP POST REQUST */
+angular.module('userController', ['userServices'])
 
-.controller('regCtrl', function($scope, $http, $timeout, $location, $window) {
+.controller('regCtrl', function($scope, $http, $timeout, $location, $window, User) {
 
     /*
     regUser:    1. TAKES THE DATA FROM THE REGISTER FORM.
@@ -18,8 +20,7 @@ angular.module('userController', [])
 
         regData = $scope.beautify(regData);
 
-        $http.post('/api/users', $scope.regData)
-            .then(function(data) {
+        User.create($scope.regData).then(function(data) {
 
                 //display messages
                 $scope.loading = false;
