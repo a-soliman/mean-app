@@ -2,20 +2,20 @@
 	<h2>User login</h2>
 </div>
 
-<form ng-submit="regUser(regData)">
+<form ng-submit="doLogin(loginData)">
 	<div class="control-group">
 		<label for="username">Username: </label>
-		<input class="form-control" type="text" name="username" ng-model="regData.username">
+		<input class="form-control" type="text" name="username" ng-model="loginData.username">
 	</div>
 
 	<div class="control-group">
 		<label for="password">Password: </label>
-		<input class="form-control" type="password" name="password" ng-model="regData.password">
+		<input class="form-control" type="password" name="password" ng-model="loginData.password">
 	</div>
 
 	<!-- <div class="control-group">
 		<label for="username">Email: </label>
-		<input class="form-control" type="email" name="email" ng-model="regData.email">
+		<input class="form-control" type="email" name="email" ng-model="loginData.email">
 	</div> -->
 
 	<button class="btn btn-primary" type="submit">Submit</button>
