@@ -25,17 +25,16 @@ angular.module('mainController', ['authServices'])
         loginData = $scope.beautify(loginData);
 
         Auth.login(loginData).then(function(data) {
+            //display messages
+            $scope.loading = false;
 
-                //display messages
-                $scope.loading = false;
+            $scope.handleMsgs(data);
 
-                $scope.handleMsgs(data);
-
-                if(data.data.success) {
-                    $scope.redirectPath();
-                }
-                
-            })
+            if(data.data.success) {
+                $scope.redirectPath();
+            }
+            
+        })
     }
 
 
