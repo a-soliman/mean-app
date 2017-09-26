@@ -76,3 +76,8 @@ angular.module('userController', ['userServices'])
     }
 
 })
+
+.controller('facebookCtrl', function($routeParams, Auth, $location) {
+    Auth.facebook($routeParams.token);
+    $location.path('/')
+});

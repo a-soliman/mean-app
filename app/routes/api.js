@@ -93,6 +93,13 @@ module.exports = function(router){
 		})
 	})
 
+	/*
+		MIDDLEWARE 
+					TO SAVE A GLOBAL VARIABLE HOLDING THE USER TOKEN IN ORDER TO 
+					BE SENT TO THE FRONT END AND HANDELED IN THE BROWSER.
+
+	*/
+
 	router.use(function(req, res, next) {
 		let token = req.body.token || req.body.query || req.headers['x-access-token'];
 
@@ -119,8 +126,7 @@ module.exports = function(router){
 	*/
 
 	router.post('/me', function(req, res) {
-		console.log(decoded)
-		res.send(decoded);
+		res.send(req.decoded);
 	});
 
 	return router;

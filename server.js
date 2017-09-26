@@ -1,12 +1,14 @@
-const express = require('express');
-const app = express();
-let port = process.env.PORT || 8080;
-const morgan = require('morgan');
-const mongo = require('mongodb');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const expressValidator = require('express-validator');
-const path = require('path');
+const express 			= require('express');
+const app 				= express();
+let port 				= process.env.PORT || 8080;
+const morgan 			= require('morgan');
+const mongo 			= require('mongodb');
+const mongoose 			= require('mongoose');
+const bodyParser 		= require('body-parser');
+const expressValidator 	= require('express-validator');
+const path 				= require('path');
+const passport 			= require('passport');
+const social			= require('./app/passport/passport')(app, passport);
 
 let router = express.Router();
 let appRoutes = require('./app/routes/api')(router);
