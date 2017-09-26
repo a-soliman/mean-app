@@ -1,4 +1,6 @@
 let User = require('../models/user');
+var jwt = require('jsonwebtoken');
+var secret = "Test Secret!"
 
 module.exports = function(router){
 	router.post('/users', function(req, res) {
@@ -83,11 +85,43 @@ module.exports = function(router){
 				if(!validPassword) {
 					res.send({ "success": false, "message": "Could not authenticate password!"});
 				} else {
-					res.send({ "success": true, "message": "User Authenticated!"})
+					/* SENDS THE USER TOKEN ALONGSIDE TO THE SUCCESS MESSAGE */
+					var token = jwt.sign({ username: user.username, email: user.email }, secret, { expiresIn: '24h'});
+					res.send({ "success": true, "message": "User Authenticated!", token: token})
 				}
 			}
 		})
 	})
+
+	router.use(function(req, res, next) {
+		let token = req.body.token || req.body.query || req.headers['x-access-token'];
+
+		if(token) {
+			// verify token
+			jwt.verify(token, secret, function(err, decoded) {
+				if(err) {
+					res.send({"success": false, "message": "Token Invalid."})
+				}
+				else {
+					req.decoded = decoded;
+					next()
+				}
+			})
+		} else {
+			res.send({"success": false, "message" : "No token provided."})
+		}
+	})
+
+	/* 
+		**************************
+		==== GET CURRENT USER ====
+	 	**************************
+	*/
+
+	router.post('/me', function(req, res) {
+		console.log(decoded)
+		res.send(decoded);
+	});
 
 	return router;
 }

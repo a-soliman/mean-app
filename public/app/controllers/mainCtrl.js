@@ -7,6 +7,19 @@
 angular.module('mainController', ['authServices'])
 
 .controller('mainCtrl', function($scope, $timeout, $location, Auth) {
+
+    /*
+        CHECK IF THERE IS A TOKEN FOR A LOGGED IN USER AND RETURN IT
+        OTHERWISE TAKES TO LOKKGIN FORM.
+    */
+    if(Auth.isLoggedIn()) {
+        console.log('success - user is logged in');
+        Auth.getUser().then(function(data) {
+            console.log(data.data.username);
+        })
+    } else {
+        console.log('failure - user is NOT loggedIn');
+    }
     
     /*
     doLogin:    1. TAKES THE DATA FROM THE LOGIN FORM.
@@ -31,7 +44,7 @@ angular.module('mainController', ['authServices'])
             $scope.handleMsgs(data);
 
             if(data.data.success) {
-                $scope.redirectPath();
+                $scope.redirectPath('/about');
             }
             
         })
@@ -62,13 +75,36 @@ angular.module('mainController', ['authServices'])
     }
 
     /*
-    redirectPath:   1. SETS A TIMEOUT FUNCTION OF 200 AND REDIRECTS TO THE HOME PAGE.
+    redirectPath:   1. SETS A TIMEOUT FUNCTION OF 200 AND REDIRECTS TO WHATEVER PATH PASSED AS A PARAMETER.
     */
 
-    $scope.redirectPath = function() {
+    $scope.redirectPath = function(location) {
         $timeout(function() {
-            $location.path('/about');
-        }, 200)
+            $location.path(location);
+        }, 500)
+    }
+
+    /*
+    LOGOUT:     
+        1.  INVOKES THE AUTH.LOGOUT FUNCTION, WHICH WILL REMOVE THE USER TOKEN FROM THE LOCALSTORAGE.
+        2.  INVOKES CLEARMESSEGES FUNCTION TO CLEAR OUT THE SUCCESS AND ERROR MESSAGES FROM THE SCOPE.
+        3.  SETS THE PATH TO '/LOGOUT' IN ORDER TO REDIRECT.
+        4.  INVOKES THE REDIRECTPATH FUNCTION: PASSING THE '/LOGIN' TO REDIRECT TO.
+    */
+    $scope.logout = function() {
+        Auth.logout();
+        $scope.clearMessages();
+        $location.path('/logout');
+        $scope.redirectPath('/login');
+    }
+
+    /*
+        CLEAR MESSAGES: RESET TE SCOPE SUCCESS AND FAUILURE MESSAGES TO NULL;
+    */
+    $scope.clearMessages = function() {
+        $scope.errorMsg     = null;
+        $scope.errorMsgs    = null;
+        $scope.successMsg   = null;
     }
 })
 
