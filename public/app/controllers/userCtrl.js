@@ -3,7 +3,6 @@
 angular.module('userController', ['userServices'])
 
 .controller('regCtrl', function($scope, $http, $timeout, $location, $window, User) {
-
     /*
     regUser:    1. TAKES THE DATA FROM THE REGISTER FORM.
                 2. RESETS THE ERROR MESSAGES TO NULL AND THE LOADING STATE TO TRUE FOR BETTER LAYOUT PERFORMANCE.
@@ -77,7 +76,23 @@ angular.module('userController', ['userServices'])
 
 })
 
-.controller('facebookCtrl', function($routeParams, Auth, $location) {
-    Auth.facebook($routeParams.token);
-    $location.path('/')
+.controller('facebookCtrl', function($scope, $routeParams, Auth, $location, $window) {
+
+    if($window.location.pathname == '/facebookerror') {
+        $scope.facebookErrorMSG = 'Facebook email not found in database.';
+    } else {
+        Auth.facebook($routeParams.token);
+        $location.path('/')
+    }
+})
+
+.controller('googleCtrl', function($scope, $routeParams, Auth, $location, $window) {
+    
+    if($window.location.pathname == '/googleerror') {
+        $scope.errorMSG = 'Google email not found in database.';
+        // console.log($scope)
+    } else {
+        Auth.google($routeParams.token);
+        $location.path('/')
+    }
 });

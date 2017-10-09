@@ -32,6 +32,9 @@ angular.module('mainController', ['authServices'])
     })
 
 
+    $scope.google = function() {
+        $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/google';
+    }
     /*
     doLogin:    1. TAKES THE DATA FROM THE LOGIN FORM.
                 2. RESETS THE ERROR MESSAGES TO NULL AND THE LOADING STATE TO TRUE FOR BETTER LAYOUT PERFORMANCE.

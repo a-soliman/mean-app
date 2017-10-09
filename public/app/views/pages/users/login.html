@@ -23,6 +23,8 @@
 	<a href="/auth/facebook" target="_blank">
 		<button class="btn btn-primary" type="button">Facebook</button>
 	</a>
+	<br>
+	<a href="/auth/google" target="_blank">Google</a>
 </form>
 
 <!-- LOADING -->
@@ -35,4 +37,6 @@
 	<div class="alert alert-sucess">{{successMsg}}</div>
 	<div class="alert alert-danger">{{errorMsg}}</div>
 	<div class="alert alert-danger" ng-repeat="errorMsg in errorMsgs">{{errorMsg}}</div>
+	<div class="alert alert-danger" ng-show="facebookErrorMsg">{{ facebookErrorMSG }}</div>
+	<div class="alert alert-danger" ng-show="googleErrorMsg">{{ googleErrorMSG }}</div>
 </div>

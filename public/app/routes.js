@@ -29,6 +29,24 @@ angular.module('appRoutes', ['ngRoute'])
 		controllerAs: 'facebook'
 	})
 
+	.when('/facebookerror', {
+		templateUrl: 'app/views/pages/users/login.html',
+		controller: 'facebookCtrl',
+		controllerAs: 'facebook'
+	})
+
+	.when('/google/:token', {
+		templateUrl: 'app/views/pages/users/profile.html',
+		controller: 'googleCtrl',
+		controllerAs: 'google'
+	})
+
+	.when('/googleerror', {
+		templateUrl: 'app/views/pages/users/login.html',
+		controller: 'googleCtrl',
+		controllerAs: 'google'
+	})
+
 	.when('/logout', {
 		templateUrl: 'app/views/pages/users/social/social.html'
 	})

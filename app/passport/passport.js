@@ -1,4 +1,5 @@
 var FacebookStrategy 	= require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User 				= require('../models/user');
 var session = require('express-session');
 
@@ -41,7 +42,7 @@ module.exports = function(app, passport) {
   	},
 	  	function(accessToken, refreshToken, profile, done) {
 	  		console.log(profile)
-	    	User.findOne({ email: profile._json.email }).select('username, password email').exec(function(err, user) {
+	    	User.findOne({ email: profile._json.email }).select('username, password, email').exec(function(err, user) {
 	    		if(err) done(err);
 
 	    		if(user && user != null) {
@@ -53,8 +54,37 @@ module.exports = function(app, passport) {
 		}
 	));
 
-	app.get('/auth/facebook', passport.authenticate('facebook'));
 
+
+	passport.use(new GoogleStrategy({
+	    clientID: "692774161074-gs9t8k2dpp3o7a8u0dupnqvf2fqvhn1h.apps.googleusercontent.com",
+	    clientSecret: "VhV8iQ5_84jElMFVo8fPJ24t",
+	    callbackURL: "http://localhost:8080/auth/google/callback"
+	  },
+	  function(accessToken, refreshToken, profile, done) {
+	       console.log(profile.emails[0].value)
+
+	       User.findOne({ email: profile.emails[0].value}).select('username password email').exec(function(err, user) {
+	    		if(err) done(err);
+
+	    		if(user && user != null) {
+	    			done(null, user);
+	    			console.log('*** ALl GOOD ***')
+	    		} else {
+	    			console.log('there was a problem')
+	    			done();
+	    		}
+	    	})
+	  }
+	));
+
+	app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'profile', 'email'] }));
+
+
+	app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/googleerror' }), function(req, res) {
+	    console.log('#### WE aRe HERE #####')
+	    res.redirect('/google' + token);
+	});
 
 	app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
 		res.redirect('/facebook/' + token);
